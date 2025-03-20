@@ -14,7 +14,7 @@ env:
 jobs:
     build:
         runs-on: ubuntu-latest
-        secrets: inherit
+        
         defaults:
             run:
                 working-directory: mobile
@@ -39,11 +39,13 @@ jobs:
 
             - name: Setup keys
               uses: timheuer/base64-to-file@v1
+              secrets: inherit
               with:
                   fileName: "keystore/ente_photos_key.jks"
                   encodedString: ${{ secrets.SIGNING_KEY_PHOTOS }}
 
             - name: Build independent APK
+              secrets: inherit
               run: |
                 flutter build apk --dart-define=cronetHttpNoPlay=true --release --flavor independent
                 mv build/app/outputs/flutter-apk/app-independent-release.apk build/app/outputs/flutter-apk/ente-${{ github.ref_name }}.apk
